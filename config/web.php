@@ -22,6 +22,7 @@ $config = [
         'user' => [
             'identityClass' => 'app\models\User',
             'enableAutoLogin' => true,
+            //'loginUrl' => ['auth/login']
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
@@ -50,7 +51,11 @@ $config = [
             'rules' => [
             ],
         ],
-        
+    ],
+    'modules' => [
+        'admin' => [
+            'class' => 'app\modules\admin\Module',
+        ],
     ],
     'params' => $params,
 ];
