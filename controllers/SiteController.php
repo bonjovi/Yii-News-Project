@@ -9,6 +9,8 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use app\models\News;
+use app\models\Themes;
 
 class SiteController extends Controller
 {
@@ -61,7 +63,15 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $data = News::getAll(5);
+        $themes = Themes::getAll();
+        //var_dump($data);die;
+        
+        return $this->render('index',[
+            'news'=>$data['news'],
+            'pagination'=>$data['pagination'],
+            'themes'=>$themes
+        ]);
     }
 
     /**

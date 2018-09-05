@@ -51,4 +51,9 @@ class Themes extends \yii\db\ActiveRecord
     {
         return $this->hasMany(News::className(), ['theme_id' => 'theme_id']);
     }
+
+    public static function getAll()
+    {
+        return Themes::find()->all();
+    }
 }

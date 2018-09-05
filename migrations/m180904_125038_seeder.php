@@ -20,6 +20,15 @@ class m180904_125038_seeder extends Migration
             ['Глямур'],
             ['Искусство'],
         ])->execute();
+
+        Yii::$app->db->createCommand()->batchInsert('news', ['title', 'text', 'theme_id', 'date'], [
+            ['1-я новость', 'Текст 1-й новости', '1', '2018-08-31'],
+            ['2-я новость', 'Текст 2-й новости', '2', '2018-09-01'],
+            ['3-я новость', 'Текст 3-й новости', '3', '2018-09-02'],
+            ['4-я новость', 'Текст 4-й новости', '4', '2018-09-03'],
+            ['5-я новость', 'Текст 5-й новости', '5', '2018-09-04'],
+            ['6-я новость', 'Текст 6-й новости', '6', '2018-09-05'],
+        ])->execute();
     }
 
     /**
@@ -27,9 +36,13 @@ class m180904_125038_seeder extends Migration
      */
     public function safeDown()
     {
-        echo "m180904_125038_seeder cannot be reverted.\n";
+        Yii::$app->db->createCommand()->delete('themes', ['in', 'theme_id', [1, 2, 3, 4, 5, 6]]
+        )->execute();
 
-        return false;
+        Yii::$app->db->createCommand()->delete('news', ['in', 'news_id', [1, 2, 3, 4, 5, 6]]
+        )->execute();
+
+        
     }
 
     /*
