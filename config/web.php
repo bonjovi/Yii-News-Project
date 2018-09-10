@@ -4,6 +4,7 @@ $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 
 $config = [
+    'language' => 'ru-RU',
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
@@ -12,6 +13,14 @@ $config = [
         '@npm'   => '@vendor/npm-asset',
     ],
     'components' => [
+        'formatter' => [
+            'dateFormat' => '',
+            'defaultTimeZone' => 'Europe/Moscow',
+            'decimalSeparator' => ',',
+            'thousandSeparator' => ' ',
+            'currencyCode' => 'EUR',
+            'locale' => 'ru-RU',
+       ],
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'r9YvUomZ_g5hX8N8oQQKk6Ek4QswCx-6',
@@ -58,6 +67,7 @@ $config = [
         ],
     ],
     'params' => $params,
+    
 ];
 
 if (YII_ENV_DEV) {

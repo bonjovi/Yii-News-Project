@@ -61,18 +61,39 @@ class SiteController extends Controller
      *
      * @return string
      */
-    public function actionIndex()
+    public function actionIndex($date = null)
     {
-        $data = News::getAll(5);
+        $date ? $data = News::find()->where('MONTH(date) = :date', [':date' => $date])->orderBy(['date' => SORT_DESC])->all() : $data = News::find()->orderBy(['date' => SORT_DESC])->all();
+
         $themes = Themes::getAll();
-        //var_dump($data);die;
-        
+        $dates = News::find()->select('date')->groupBy(['date']);
+        var_dump($dates); die;
+
         return $this->render('index',[
-            'news'=>$data['news'],
+            'news'=>$data,
             'pagination'=>$data['pagination'],
-            'themes'=>$themes
+            'themes'=>$themes,
+            'dates' => $dates
         ]);
     }
+
+    public function actionView($id)
+    {
+        $news = News::findOne($id);
+        $theme = Themes::findOne($news->theme_id);
+       
+        
+        return $this->render('single',[
+            'news'=>$news,
+            'theme'=>$themes,
+        ]);
+    }
+
+
+
+
+
+
 
     /**
      * Login action.

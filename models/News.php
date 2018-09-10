@@ -60,7 +60,7 @@ class News extends \yii\db\ActiveRecord
 
 
 
-    public static function getAll($pageSize = 5)
+    public static function getAll($pageSize = 15)
     {
         
         $query = News::find();
@@ -80,5 +80,13 @@ class News extends \yii\db\ActiveRecord
         
         return $data;
     }
+
+    public function getTheme()
+    {
+        return $this->hasOne(Themes::className(), ['theme_id' => 'theme_id']);
+    }
+
+    
+
     
 }
