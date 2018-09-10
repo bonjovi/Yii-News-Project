@@ -19,16 +19,19 @@ use yii\helpers\StringHelper;
         <div class="row">
             <div class="col-lg-2">
 
+                
+
                 <?php 
                     foreach($dates as $date) {
-                        $monthsArray[] = Yii::$app->formatter->asDate($date->date, 'M');   
+                        if($date['year'] == $date['year']) {
+                            echo $date['year'];
+                        } else {
+                            echo $date['year'];
+                        }
                     }    
-                    $monthsUniqueArray = array_count_values ($monthsArray);
+                    
                 ?>
-
-                <?php foreach( $monthsUniqueArray as $key => $value):?>
-                    <p><a href="<?= Url::toRoute(['site/index', 'date'=>$key]);?>"><?=$key?></a> <small class="text-muted"><?=$value?></small></p>
-                <?php endforeach; ?>
+                
 
             </div>
             <div class="col-lg-10">

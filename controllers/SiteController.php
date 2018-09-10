@@ -66,14 +66,24 @@ class SiteController extends Controller
         $date ? $data = News::find()->where('MONTH(date) = :date', [':date' => $date])->orderBy(['date' => SORT_DESC])->all() : $data = News::find()->orderBy(['date' => SORT_DESC])->all();
 
         $themes = Themes::getAll();
-        $dates = News::find()->select('date')->groupBy(['date']);
-        var_dump($dates); die;
+        $years = News::find()->select('date')->all();
+        // foreach($years as $year) {
+        //     echo $year->date('YEAR(date)');
+        // }
+
+        $sql = 'select year(date) as `year`, month(date) as `month`, count(*) as `count` from news group by `year`, `month` order by year(date) desc';
+        $result = Yii::$app->db->createCommand($sql)->queryAll();
+        // echo '<pre>';
+        //var_dump($result);
+        // print_r($result);
+        // echo '</pre>';
+        // die;
 
         return $this->render('index',[
             'news'=>$data,
             'pagination'=>$data['pagination'],
             'themes'=>$themes,
-            'dates' => $dates
+            'dates' => $result
         ]);
     }
 
