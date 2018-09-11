@@ -61,29 +61,31 @@ class SiteController extends Controller
      *
      * @return string
      */
-    public function actionIndex($date = null)
+    public function actionIndex($year = null, $month = null)
     {
-        $date ? $data = News::find()->where('MONTH(date) = :date', [':date' => $date])->orderBy(['date' => SORT_DESC])->all() : $data = News::find()->orderBy(['date' => SORT_DESC])->all();
+        if($year && $month) 
+        { 
+            $news = News::find()->
+                where('MONTH(date) = :month', [':month' => $month])->
+                andWhere('YEAR(date) = :year', [':year' => $year])->
+                orderBy(['date' => SORT_DESC])->all();
+        } else
+        {
+            $news = News::find()->orderBy(['date' => SORT_DESC])->all();
+        }
 
         $themes = Themes::getAll();
-        $years = News::find()->select('date')->all();
-        // foreach($years as $year) {
-        //     echo $year->date('YEAR(date)');
-        // }
+        
 
-        $sql = 'select year(date) as `year`, month(date) as `month`, count(*) as `count` from news group by `year`, `month` order by year(date) desc';
-        $result = Yii::$app->db->createCommand($sql)->queryAll();
-        // echo '<pre>';
-        //var_dump($result);
-        // print_r($result);
-        // echo '</pre>';
-        // die;
+        $datesSql = 'select year(date) as `year`, month(date) as `month`, count(*) as `count` from news group by `year`, `month` order by year(date) desc';
+        $datesResult = Yii::$app->db->createCommand($datesSql)->queryAll();
+        
 
         return $this->render('index',[
-            'news'=>$data,
-            'pagination'=>$data['pagination'],
+            'news'=>$news,
+            //'pagination'=>$data['pagination'],
             'themes'=>$themes,
-            'dates' => $result
+            'dates' => $datesResult
         ]);
     }
 

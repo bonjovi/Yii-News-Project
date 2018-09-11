@@ -19,18 +19,27 @@ use yii\helpers\StringHelper;
         <div class="row">
             <div class="col-lg-2">
 
-                
+                <?php $uniqueObj = null; ?>
 
-                <?php 
-                    foreach($dates as $date) {
-                        if($date['year'] == $date['year']) {
-                            echo $date['year'];
-                        } else {
-                            echo $date['year'];
-                        }
-                    }    
-                    
-                ?>
+                <?php foreach($dates as $date): ?>
+                    <?php if($date['year'] != $uniqueObj): ?>
+                        <?=$date['year']?>
+                    <?php endif; ?>
+
+                    <?php $uniqueObj = $date['year']; ?>
+
+                    <p>
+                        <a href='
+                            <?= Url::toRoute(['site/index', 'year'=>$date['year'], 'month'=>$date['month']]);?>
+                        '>
+                            <?=monthword($date['month'])?>
+                        </a>
+                        <small class="text-muted">
+                            <?=$date['count']?>
+                        </small>
+                    </p>
+
+                <?php endforeach; ?>
                 
 
             </div>
