@@ -3,8 +3,8 @@
 namespace app\modules\admin\controllers;
 
 use Yii;
-use app\models\Themes;
-use app\models\ThemesSearch;
+use app\modules\news\models\Themes;
+use app\modules\news\models\ThemesSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;

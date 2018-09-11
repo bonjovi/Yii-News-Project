@@ -1,6 +1,6 @@
 <?php
 
-namespace app\controllers;
+namespace app\modules\news\controllers;
 
 use Yii;
 use yii\filters\AccessControl;
@@ -9,11 +9,11 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
-use app\models\News;
-use app\models\Themes;
+use app\modules\news\models\News;
+use app\modules\news\models\Themes;
 use yii\data\Pagination;
 
-class SiteController extends Controller
+class NewsController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -64,12 +64,48 @@ class SiteController extends Controller
      */
     public function actionIndex($year = null, $month = null, $theme_id = null)
     {
+        if($year && $month) { 
+            $newsQuery = News::find()->
+                where('MONTH(date) = :month', [':month' => $month])->
+                andWhere('YEAR(date) = :year', [':year' => $year])->
+                orderBy(['date' => SORT_DESC]);
+        } elseif($theme_id) {
+            $newsQuery = News::find()->
+                where('theme_id = :theme_id', [':theme_id' => $theme_id])->
+                orderBy(['date' => SORT_DESC]);
+        } else {
+            $newsQuery = News::find()->orderBy(['date' => SORT_DESC]);
+        }
         
+        $count = $newsQuery->count();
+        $pagination = new Pagination(['totalCount' => $count, 'pageSize' => 3]);
+        $news = $newsQuery->offset($pagination->offset)
+            ->limit($pagination->limit)
+            ->all();
+
+        $datesSql = 'SELECT YEAR(date) AS `year`, MONTH(date) AS `month`, COUNT(*) AS `count` FROM news GROUP BY `year`, `month` ORDER BY YEAR(date) DESC';
+        $datesResult = Yii::$app->db->createCommand($datesSql)->queryAll();
+
+        $themesSql = 'SELECT themes.theme_title AS theme_title, themes.theme_id AS theme_id, COUNT(news.theme_id) as count FROM themes LEFT JOIN news ON themes.theme_id = news.theme_id GROUP BY theme_title, theme_id';
+        $themesResult = Yii::$app->db->createCommand($themesSql)->queryAll();        
+
+        return $this->render('index',[
+            'news'=>$news,
+            'pagination'=>$pagination,
+            'themes'=>$themesResult,
+            'dates' => $datesResult
+        ]);
     }
 
     public function actionView($id)
     {
+        $news = News::findOne($id);
+       
         
+        return $this->render('single',[
+            'news'=>$news,
+            
+        ]);
     }
 
 
@@ -91,7 +127,7 @@ class SiteController extends Controller
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            $this->redirect('/admin/news');
+            $this->redirect('/admin');
         }
 
         $model->password = '';

@@ -3,14 +3,14 @@
 namespace app\modules\admin\controllers;
 
 use Yii;
-use app\models\News;
-use app\models\NewsSearch;
+use app\modules\news\models\News;
+use app\modules\news\models\NewsSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
-use app\models\Themes;
-use app\models\ThemesSearch;
+use app\modules\news\models\Themes;
+use app\modules\news\models\ThemesSearch;
 
 /**
  * NewsController implements the CRUD actions for News model.
