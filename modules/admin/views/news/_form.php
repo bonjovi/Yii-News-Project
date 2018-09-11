@@ -14,7 +14,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'date')->textInput() ?>
+    <?= $form->field($model, 'date')->textInput(['id'=>'datepicker']) ?>
 
     <?= $form->field($model, 'theme_id')->dropDownList($themes, ['class'=>'form-control'])->label('Theme title') ?>
 

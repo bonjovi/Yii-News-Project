@@ -19,6 +19,10 @@ AppAsset::register($this);
     <meta charset="<?= Yii::$app->charset ?>">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    
+
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
@@ -76,6 +80,18 @@ AppAsset::register($this);
 </footer>
 
 <?php $this->endBody() ?>
+
+
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+    $(function() {
+        var options={
+            format: 'yy-mm-dd'
+        };
+        $("#datepicker").datepicker({ dateFormat: 'yy-mm-dd' });
+    });
+</script>
+
 </body>
 </html>
 <?php $this->endPage() ?>

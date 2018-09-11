@@ -32,9 +32,12 @@ class News extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['date'], 'required'],
             [['date'], 'safe'],
             [['theme_id'], 'integer'],
+            [['text'], 'required'],
             [['text'], 'string'],
+            [['title'], 'required'],
             [['title'], 'string', 'max' => 255],
             [['theme_id'], 'exist', 'skipOnError' => true, 'targetClass' => Themes::className(), 'targetAttribute' => ['theme_id' => 'theme_id']],
         ];

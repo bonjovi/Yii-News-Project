@@ -38,7 +38,21 @@ use yii\helpers\StringHelper;
                             <?=$date['count']?>
                         </small>
                     </p>
+                <?php endforeach; ?>
 
+                <?='<br>'?>
+
+                <?php foreach($themes as $theme): ?>
+                    <p>
+                        <a href='
+                            <?= Url::toRoute(['site/index', 'theme_id'=>$theme['theme_id']]);?>
+                        '>
+                            <?=$theme['theme_title']?>
+                        </a>
+                        <small class="text-muted">
+                            <?=$theme['count']?>
+                        </small>
+                    </p>
                 <?php endforeach; ?>
                 
 
@@ -50,8 +64,15 @@ use yii\helpers\StringHelper;
                     <small class="text-muted"><?=$newsitem->theme->theme_title?></small>
                     
                     <p><?=\yii\helpers\StringHelper::truncate($newsitem->text, 256, '...')?></p>
+                    <p><a href="<?= Url::toRoute(['site/view', 'id'=>$newsitem->news_id]);?>">Читать далее</a></p>
                     
                 <?php endforeach; ?>
+
+                <?php
+                    echo LinkPager::widget([
+                        'pagination' => $pagination,
+                    ]);
+                ?>
             </div>
         </div>
 
