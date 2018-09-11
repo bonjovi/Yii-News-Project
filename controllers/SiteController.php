@@ -109,7 +109,7 @@ class SiteController extends Controller
     {
         Yii::$app->user->logout();
 
-        return $this->goHome();
+        $this->redirect('/news/news');
     }
 
     /**
